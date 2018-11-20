@@ -4,6 +4,8 @@ import Notification from './components/Notification';
 import blogService from './services/blogs';
 import loginService from './services/login';
 import BlogForm from './components/BlogForm';
+import LoginForm from './components/LoginForm';
+import Togglable from './components/Toggable';
 import './StyleZ.css';
 
 class App extends React.Component {
@@ -83,27 +85,17 @@ class App extends React.Component {
   };
 
   render() {
-    const loginForm = () => {
-      return (
-        <div>
-          <h2>Log in to application</h2>
-
-          <form onSubmit={this.login}>
-            <div>
-              username:
-              <input type="text" name="username" value={this.state.username} onChange={this.handleFieldChange} />
-            </div>
-            <div>
-              password:
-              <input type="password" name="password" value={this.state.password} onChange={this.handleFieldChange} />
-            </div>
-            <button className="login-button" type="submit">
-              login{' '}
-            </button>
-          </form>
-        </div>
-      );
-    };
+    const loginForm = () => (
+      <Togglable buttonLabel="login">
+        <LoginForm
+          visible={this.state.visible}
+          username={this.state.username}
+          password={this.state.password}
+          handleChange={this.handleFieldChange}
+          handleSubmit={this.login}
+        />
+      </Togglable>
+    );
 
     const blogForm = () => {
       return (
@@ -114,11 +106,14 @@ class App extends React.Component {
               logout
             </button>
           </div>{' '}
-          <BlogForm
-            updateBlogs={this.updateBlogs.bind(this)}
-            updateNotifications={this.updateNotifications.bind(this)}
-            updateErrors={this.updateErrors.bind(this)}
-          />
+          <Togglable buttonLabel="create new blog" ref={component => (this.BlogForm = component)}>
+            <BlogForm
+              updateBlogs={this.updateBlogs.bind(this)}
+              updateNotifications={this.updateNotifications.bind(this)}
+              updateErrors={this.updateErrors.bind(this)}
+              toggleVisibility={() => this.BlogForm.toggleVisibility()}
+            />
+          </Togglable>
           {this.state.blogs.map(blog => <Blog key={blog._id} blog={blog} />)}
         </div>
       );

@@ -26,9 +26,8 @@ class BlogForm extends React.Component {
       await this.props.updateNotifications(message);
       this.props.updateBlogs();
       this.setState({ title: '', author: '', url: '' });
+      this.props.toggleVisibility();
     } catch (exception) {
-      // console.log('VIRHE', exception);
-      // const exceptionMsg = JSON.stringify(exception);
       this.props.updateErrors('Unauthorized access');
     }
   };

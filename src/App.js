@@ -14,7 +14,8 @@ class App extends React.Component {
       username: '',
       password: '',
       user: null,
-      error: null
+      error: null,
+      notification: null
     };
   }
 
@@ -31,6 +32,24 @@ class App extends React.Component {
   updateBlogs() {
     blogService.getAll().then(blogs => this.setState({ blogs }));
   }
+
+  updateNotifications = notification => {
+    this.setState({
+      notification: notification
+    });
+    setTimeout(() => {
+      this.setState({ notification: null });
+    }, 6000);
+  };
+
+  updateErrors = error => {
+    this.setState({
+      error: error
+    });
+    setTimeout(() => {
+      this.setState({ error: null });
+    }, 6000);
+  };
 
   login = async event => {
     event.preventDefault();
@@ -49,7 +68,7 @@ class App extends React.Component {
       });
       setTimeout(() => {
         this.setState({ error: null });
-      }, 5000);
+      }, 6000);
     }
   };
 
@@ -95,7 +114,11 @@ class App extends React.Component {
               logout
             </button>
           </div>{' '}
-          <BlogForm updateBlogs={this.updateBlogs.bind(this)} />
+          <BlogForm
+            updateBlogs={this.updateBlogs.bind(this)}
+            updateNotifications={this.updateNotifications.bind(this)}
+            updateErrors={this.updateErrors.bind(this)}
+          />
           {this.state.blogs.map(blog => <Blog key={blog._id} blog={blog} />)}
         </div>
       );
@@ -105,7 +128,7 @@ class App extends React.Component {
       <div>
         <h2 className="h2">blogs</h2>
 
-        <Notification message={this.state.error} />
+        <Notification error={this.state.error} notification={this.state.notification} />
 
         {this.state.user === null ? loginForm() : <div>{blogForm()}</div>}
       </div>

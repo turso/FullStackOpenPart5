@@ -1,5 +1,6 @@
 import React from 'react';
 import blogService from '../services/blogs';
+import Notification from './Notification';
 import '../StyleZ.css';
 
 class BlogForm extends React.Component {
@@ -20,10 +21,15 @@ class BlogForm extends React.Component {
     event.preventDefault();
     try {
       await blogService.create({ title: this.state.title, author: this.state.author, url: this.state.url });
-      this.setState({ title: '', author: '', url: '' });
+      const message = `a new blog '${this.state.title}' by ${this.state.author} added`;
+
+      await this.props.updateNotifications(message);
       this.props.updateBlogs();
+      this.setState({ title: '', author: '', url: '' });
     } catch (exception) {
-      console.log('VIRHE', exception);
+      // console.log('VIRHE', exception);
+      // const exceptionMsg = JSON.stringify(exception);
+      this.props.updateErrors('Unauthorized access');
     }
   };
 

@@ -88,7 +88,6 @@ class App extends React.Component {
     const blogForm = () => {
       return (
         <div>
-          <h2 className="h2">blogs</h2>
           <div className="login-second-title">
             <div>{this.state.user.name} logged in</div>
             <button className="logout-button" type="button" onClick={this.logout}>
@@ -106,14 +105,7 @@ class App extends React.Component {
 
         <Notification message={this.state.error} />
 
-        {this.state.user === null ? (
-          loginForm()
-        ) : (
-          <div>
-            <p>{this.state.user.name} logged in</p>
-            {blogForm()}
-          </div>
-        )}
+        {this.state.user === null ? loginForm() : <div>{blogForm()}</div>}
       </div>
     );
   }

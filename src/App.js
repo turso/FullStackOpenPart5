@@ -17,6 +17,12 @@ class App extends React.Component {
 
   componentDidMount() {
     blogService.getAll().then(blogs => this.setState({ blogs }));
+
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser');
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON);
+      this.setState({ user });
+    }
   }
 
   login = async event => {
@@ -27,10 +33,11 @@ class App extends React.Component {
         password: this.state.password
       });
 
+      window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user));
       this.setState({ username: '', password: '', user });
     } catch (exception) {
       this.setState({
-        error: 'käyttäjätunnus tai salasana virheellinen'
+        error: 'wrong username or password'
       });
       setTimeout(() => {
         this.setState({ error: null });
@@ -40,6 +47,12 @@ class App extends React.Component {
 
   handleLoginFieldChange = event => {
     this.setState({ [event.target.name]: event.target.value });
+  };
+
+  logout = event => {
+    event.preventDefault();
+    window.localStorage.clear();
+    this.setState({ user: null });
   };
 
   render() {
@@ -63,7 +76,7 @@ class App extends React.Component {
                   onChange={this.handleLoginFieldChange}
                 />
               </div>
-              <button className="button" type="submit">
+              <button className="login-button" type="submit">
                 login{' '}
               </button>
             </form>
@@ -71,7 +84,12 @@ class App extends React.Component {
         )) || (
           <div>
             <h2 className="h2">blogs</h2>
-            <p>{this.state.user.name} logged in</p>
+            <div className="login-second-title">
+              <div>{this.state.user.name} logged in</div>
+              <button className="logout-button" type="button" onClick={this.logout}>
+                logout
+              </button>
+            </div>{' '}
             {this.state.blogs.map(blog => <Blog key={blog._id} blog={blog} />)}
           </div>
         )}

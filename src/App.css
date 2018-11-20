@@ -1,6 +1,15 @@
 h2 {
 }
 
-button {
+.login-button {
   margin: 1rem 0rem;
+}
+
+.logout-button {
+  margin-left: 0.5rem;
+}
+
+.login-second-title {
+  display: flex;
+  margin-bottom: 1rem;
 }

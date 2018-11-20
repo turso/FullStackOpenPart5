@@ -37,3 +37,12 @@ h2 {
 .toggleButton {
   margin: 0.8rem 0rem;
 }
+
+.blog {
+  display: flex;
+  flex-direction: column;
+  border-style: solid;
+  border-color: black;
+  padding: 0.3rem;
+  margin: 0.3rem 0rem;
+}

@@ -3,7 +3,8 @@ import Blog from './components/Blog';
 import Notification from './components/Notification';
 import blogService from './services/blogs';
 import loginService from './services/login';
-import './App.css';
+import BlogForm from './components/BlogForm';
+import './StyleZ.css';
 
 class App extends React.Component {
   constructor(props) {
@@ -27,6 +28,10 @@ class App extends React.Component {
     }
   }
 
+  updateBlogs() {
+    blogService.getAll().then(blogs => this.setState({ blogs }));
+  }
+
   login = async event => {
     event.preventDefault();
     try {
@@ -36,6 +41,7 @@ class App extends React.Component {
       });
 
       window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user));
+      blogService.setToken(user.token);
       this.setState({ username: '', password: '', user });
     } catch (exception) {
       this.setState({
@@ -53,7 +59,7 @@ class App extends React.Component {
     this.setState({ user: null });
   };
 
-  handleLoginFieldChange = event => {
+  handleFieldChange = event => {
     this.setState({ [event.target.name]: event.target.value });
   };
 
@@ -66,16 +72,11 @@ class App extends React.Component {
           <form onSubmit={this.login}>
             <div>
               username:
-              <input type="text" name="username" value={this.state.username} onChange={this.handleLoginFieldChange} />
+              <input type="text" name="username" value={this.state.username} onChange={this.handleFieldChange} />
             </div>
             <div>
               password:
-              <input
-                type="password"
-                name="password"
-                value={this.state.password}
-                onChange={this.handleLoginFieldChange}
-              />
+              <input type="password" name="password" value={this.state.password} onChange={this.handleFieldChange} />
             </div>
             <button className="login-button" type="submit">
               login{' '}
@@ -94,6 +95,7 @@ class App extends React.Component {
               logout
             </button>
           </div>{' '}
+          <BlogForm updateBlogs={this.updateBlogs.bind(this)} />
           {this.state.blogs.map(blog => <Blog key={blog._id} blog={blog} />)}
         </div>
       );

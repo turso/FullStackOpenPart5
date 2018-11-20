@@ -13,3 +13,7 @@ h2 {
   display: flex;
   margin-bottom: 1rem;
 }
+
+.blogForm {
+  margin: 1rem 0rem;
+}

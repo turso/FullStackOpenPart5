@@ -1,5 +1,6 @@
 import React from 'react';
 import Blog from './components/Blog';
+import Notification from './components/Notification';
 import blogService from './services/blogs';
 import loginService from './services/login';
 import './App.css';
@@ -11,7 +12,8 @@ class App extends React.Component {
       blogs: [],
       username: '',
       password: '',
-      user: null
+      user: null,
+      error: null
     };
   }
 
@@ -45,52 +47,71 @@ class App extends React.Component {
     }
   };
 
-  handleLoginFieldChange = event => {
-    this.setState({ [event.target.name]: event.target.value });
-  };
-
   logout = event => {
     event.preventDefault();
     window.localStorage.clear();
     this.setState({ user: null });
   };
 
+  handleLoginFieldChange = event => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
+
   render() {
+    const loginForm = () => {
+      return (
+        <div>
+          <h2>Log in to application</h2>
+
+          <form onSubmit={this.login}>
+            <div>
+              username:
+              <input type="text" name="username" value={this.state.username} onChange={this.handleLoginFieldChange} />
+            </div>
+            <div>
+              password:
+              <input
+                type="password"
+                name="password"
+                value={this.state.password}
+                onChange={this.handleLoginFieldChange}
+              />
+            </div>
+            <button className="login-button" type="submit">
+              login{' '}
+            </button>
+          </form>
+        </div>
+      );
+    };
+
+    const blogForm = () => {
+      return (
+        <div>
+          <h2 className="h2">blogs</h2>
+          <div className="login-second-title">
+            <div>{this.state.user.name} logged in</div>
+            <button className="logout-button" type="button" onClick={this.logout}>
+              logout
+            </button>
+          </div>{' '}
+          {this.state.blogs.map(blog => <Blog key={blog._id} blog={blog} />)}
+        </div>
+      );
+    };
+
     return (
       <div>
-        {(this.state.user === null && (
-          <div>
-            <h2>Log in to application</h2>
+        <h2 className="h2">blogs</h2>
 
-            <form onSubmit={this.login}>
-              <div>
-                username:
-                <input type="text" name="username" value={this.state.username} onChange={this.handleLoginFieldChange} />
-              </div>
-              <div>
-                password:
-                <input
-                  type="password"
-                  name="password"
-                  value={this.state.password}
-                  onChange={this.handleLoginFieldChange}
-                />
-              </div>
-              <button className="login-button" type="submit">
-                login{' '}
-              </button>
-            </form>
-          </div>
-        )) || (
+        <Notification message={this.state.error} />
+
+        {this.state.user === null ? (
+          loginForm()
+        ) : (
           <div>
-            <h2 className="h2">blogs</h2>
-            <div className="login-second-title">
-              <div>{this.state.user.name} logged in</div>
-              <button className="logout-button" type="button" onClick={this.logout}>
-                logout
-              </button>
-            </div>{' '}
-            {this.state.blogs.map(blog => <Blog key={blog._id} blog={blog} />)}
+            <p>{this.state.user.name} logged in</p>
+            {blogForm()}
           </div>
         )}
       </div>

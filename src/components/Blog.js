@@ -18,8 +18,11 @@ class Blog extends React.Component {
     // this.toggleVisibility();
   };
 
+  deleteBlog = () => {
+    this.props.deleteBlog(this.props.blog);
+  };
+
   render() {
-    // console.log('YKS BLOGI', this.props.blog);
     const showWhenVisible = { display: this.state.visible ? '' : 'none' };
     return (
       <div className="blog">
@@ -37,6 +40,11 @@ class Blog extends React.Component {
               </button>
             </div>
             {this.props.blog.user && <div> added by {this.props.blog.user.username} </div>}
+            <div>
+              <button className="delete-button" type="button" onClick={this.deleteBlog}>
+                delete
+              </button>
+            </div>
           </div>
         </span>
       </div>

@@ -93,6 +93,16 @@ class App extends React.Component {
     this.refreshBlogList();
   };
 
+  deleteBlog = async blog => {
+    console.log(blog);
+    if (window.confirm(`Do you really want to delete ${blog.title} by ${blog.author} ?`)) {
+      await blogService.deleteOne(blog._id);
+      const message = `${blog.title} by ${blog.author} has been deleted`;
+      this.updateNotifications(message);
+      this.refreshBlogList();
+    }
+  };
+
   render() {
     const loginForm = () => (
       <Togglable buttonLabel="login">
@@ -127,7 +137,9 @@ class App extends React.Component {
             .sort((blog, mostLikes) => {
               return mostLikes.likes - blog.likes;
             })
-            .map(blog => <Blog updateLikes={this.updateLikes} key={blog._id} blog={blog} />)}
+            .map(blog => (
+              <Blog updateLikes={this.updateLikes} deleteBlog={this.deleteBlog} key={blog._id} blog={blog} />
+            ))}
         </div>
       );
     };

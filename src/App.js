@@ -138,7 +138,13 @@ class App extends React.Component {
               return mostLikes.likes - blog.likes;
             })
             .map(blog => (
-              <Blog updateLikes={this.updateLikes} deleteBlog={this.deleteBlog} key={blog._id} blog={blog} />
+              <Blog
+                updateLikes={this.updateLikes}
+                deleteBlog={this.deleteBlog}
+                key={blog._id}
+                blog={blog}
+                user={this.state.user}
+              />
             ))}
         </div>
       );

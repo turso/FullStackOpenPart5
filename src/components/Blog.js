@@ -15,7 +15,7 @@ class Blog extends React.Component {
 
   updateLikes = () => {
     this.props.updateLikes(this.props.blog);
-    this.toggleVisibility();
+    // this.toggleVisibility();
   };
 
   render() {

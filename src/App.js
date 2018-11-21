@@ -123,7 +123,11 @@ class App extends React.Component {
               toggleVisibility={() => this.BlogForm.toggleVisibility()}
             />
           </Togglable>
-          {this.state.blogs.map(blog => <Blog updateLikes={this.updateLikes} key={blog._id} blog={blog} />)}
+          {this.state.blogs
+            .sort((blog, mostLikes) => {
+              return mostLikes.likes - blog.likes;
+            })
+            .map(blog => <Blog updateLikes={this.updateLikes} key={blog._id} blog={blog} />)}
         </div>
       );
     };

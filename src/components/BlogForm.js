@@ -24,7 +24,7 @@ class BlogForm extends React.Component {
       const message = `a new blog '${this.state.title}' by ${this.state.author} added`;
 
       await this.props.updateNotifications(message);
-      this.props.updateBlogs();
+      this.props.refreshBlogList();
       this.setState({ title: '', author: '', url: '' });
       this.props.toggleVisibility();
     } catch (exception) {

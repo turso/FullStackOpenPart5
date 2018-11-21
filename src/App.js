@@ -13,6 +13,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       blogs: [],
+      blog: '',
       username: '',
       password: '',
       user: null,
@@ -31,7 +32,7 @@ class App extends React.Component {
     }
   }
 
-  updateBlogs() {
+  refreshBlogList() {
     blogService.getAll().then(blogs => this.setState({ blogs }));
   }
 
@@ -84,6 +85,14 @@ class App extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
+  updateLikes = async blog => {
+    console.log(blog);
+    const updatedBlog = { ...blog, likes: blog.likes + 1 };
+
+    await blogService.update(blog._id, updatedBlog);
+    this.refreshBlogList();
+  };
+
   render() {
     const loginForm = () => (
       <Togglable buttonLabel="login">
@@ -108,13 +117,13 @@ class App extends React.Component {
           </div>{' '}
           <Togglable buttonLabel="create new blog" ref={component => (this.BlogForm = component)}>
             <BlogForm
-              updateBlogs={this.updateBlogs.bind(this)}
+              refreshBlogList={this.refreshBlogList.bind(this)}
               updateNotifications={this.updateNotifications.bind(this)}
               updateErrors={this.updateErrors.bind(this)}
               toggleVisibility={() => this.BlogForm.toggleVisibility()}
             />
           </Togglable>
-          {this.state.blogs.map(blog => <Blog key={blog._id} blog={blog} />)}
+          {this.state.blogs.map(blog => <Blog updateLikes={this.updateLikes} key={blog._id} blog={blog} />)}
         </div>
       );
     };

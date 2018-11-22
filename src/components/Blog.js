@@ -22,25 +22,35 @@ class Blog extends React.Component {
     this.props.deleteBlog(this.props.blog);
   };
 
-  // showDeleteButtonIfCreator = (blog, user) => {
-  //   console.log('TULTIIN TÄNNE');
-  //   if (user !== null) {
-  //     if (blog.user.username !== undefined) {
-  //       if (user.username === blog.user.username) {
-  //         <div>
-  //           <button className="delete-button" type="button" onClick={this.deleteBlog}>
-  //             delete
-  //           </button>
-  //         </div>;
-  //       }
-  //     }
-  //   }
-  // };
+  showDeleteButtonIfCreator = (blog, user) => {
+    if (blog.user !== undefined) {
+      if (blog.user.username === user.username) {
+        return (
+          <div>
+            <button className="delete-button" type="button" onClick={this.deleteBlog}>
+              delete
+            </button>
+          </div>
+        );
+      }
+    } else {
+      return (
+        <div>
+          <button className="delete-button" type="button" onClick={this.deleteBlog}>
+            delete
+          </button>
+        </div>
+      );
+    }
+  };
 
   render() {
     console.log('BLOGIT', this.props.blog);
     console.log('USER', this.props.user);
     const showWhenVisible = { display: this.state.visible ? '' : 'none' };
+
+    console.log('THIS:PROS:USER', this.props.user);
+    console.log('THIS:PROPS:BLOG:USER', this.props.blog.user);
     return (
       <div className="blog">
         <h4 className="blog-title" onClick={this.toggleVisibility}>
@@ -57,14 +67,7 @@ class Blog extends React.Component {
               </button>
             </div>
             {this.props.blog.user && <div> added by {this.props.blog.user.username} </div>}
-            {this.props.user !== null ? this.props.user.username === this.props.blog.user.username ? (
-              <div>
-                <button className="delete-button" type="button" onClick={this.deleteBlog}>
-                  delete
-                </button>
-              </div>
-            ) : null : null}
-            {/* {this.showDeleteButtonIfCreator(this.props.blog, this.props.user)} */}
+            {this.showDeleteButtonIfCreator(this.props.blog, this.props.user)}
           </div>
         </span>
       </div>

@@ -53,7 +53,7 @@ class Blog extends React.Component {
           {this.props.blog.title}
         </h4>
         <span style={showWhenVisible}>
-          <div>
+          <div className="blog-details">
             <div>{this.props.blog.author}</div>
             <div>{this.props.blog.url}</div>
             <div>

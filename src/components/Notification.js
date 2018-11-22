@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import '../StyleZ.css';
 
 const Notification = ({ error, notification }) => {
@@ -11,6 +12,11 @@ const Notification = ({ error, notification }) => {
   }
 
   return null;
+};
+
+Notification.propTypes = {
+  error: PropTypes.string,
+  notification: PropTypes.string
 };
 
 export default Notification;

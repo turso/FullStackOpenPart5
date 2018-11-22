@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import '../StyleZ.css';
 
 class Blog extends React.Component {
@@ -15,7 +16,6 @@ class Blog extends React.Component {
 
   updateLikes = () => {
     this.props.updateLikes(this.props.blog);
-    // this.toggleVisibility();
   };
 
   deleteBlog = () => {
@@ -45,12 +45,8 @@ class Blog extends React.Component {
   };
 
   render() {
-    console.log('BLOGIT', this.props.blog);
-    console.log('USER', this.props.user);
     const showWhenVisible = { display: this.state.visible ? '' : 'none' };
 
-    console.log('THIS:PROS:USER', this.props.user);
-    console.log('THIS:PROPS:BLOG:USER', this.props.blog.user);
     return (
       <div className="blog">
         <h4 className="blog-title" onClick={this.toggleVisibility}>
@@ -74,5 +70,10 @@ class Blog extends React.Component {
     );
   }
 }
+
+Blog.propTypes = {
+  blog: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired
+};
 
 export default Blog;

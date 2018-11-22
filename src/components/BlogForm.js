@@ -1,6 +1,5 @@
 import React from 'react';
 import blogService from '../services/blogs';
-import Notification from './Notification';
 import '../StyleZ.css';
 
 class BlogForm extends React.Component {

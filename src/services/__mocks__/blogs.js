@@ -11,7 +11,7 @@ const blogs = [
       username: 'mrMusckle',
       name: 'bloggaajaM'
     },
-    id: '5b98d5223f64bd27943adfac'
+    _id: '5b98d5223f64bd27943adfac'
   },
   {
     likes: 0,
@@ -23,7 +23,7 @@ const blogs = [
       username: 'mrMusckle',
       name: 'bloggaajaM'
     },
-    id: '5b99044bf4f65b3008de8c4f'
+    _id: '5b99044bf4f65b3008de8c4f'
   },
   {
     likes: 0,
@@ -35,7 +35,7 @@ const blogs = [
       username: 'mrMusckle',
       name: 'bloggaajaM'
     },
-    id: '5b9909ef968de931cdbe5347'
+    _id: '5b9909ef968de931cdbe5347'
   }
 ];
 
@@ -43,8 +43,4 @@ const getAll = () => {
   return Promise.resolve(blogs);
 };
 
-const setToken = newToken => {
-  token = `bearer ${newToken}`;
-};
-
-export default { getAll, blogs, setToken };
+export default { getAll, blogs };

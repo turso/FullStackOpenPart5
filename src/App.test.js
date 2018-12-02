@@ -25,4 +25,28 @@ describe('<App />', () => {
       expect(blogComponents.length).toEqual(0);
     });
   });
+
+  describe('when user is logged', () => {
+    beforeEach(() => {
+      const user = {
+        username: 'mrMusckle',
+        token: '1231231214',
+        name: 'bloggaajaM'
+      };
+
+      localStorage.setItem('loggedBlogAppUser', JSON.stringify(user));
+      app = mount(<App />);
+    });
+
+    it('all blogs are rendered', () => {
+      app.update();
+      const blogComponents = app.find(Blog);
+      expect(blogComponents.length).toEqual(blogService.blogs.length);
+    });
+    it('no loginform is rendered', () => {
+      app.update();
+      const loginFormComponent = app.find(LoginForm);
+      expect(loginFormComponent.length).toEqual(0);
+    });
+  });
 });

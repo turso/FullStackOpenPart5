@@ -146,10 +146,6 @@ class App extends React.Component {
                 user={this.state.user}
               />
             ))}
-          <div>
-            TESTIKAMAAA
-            <div />
-          </div>
         </div>
       );
     };
